@@ -83,6 +83,8 @@ sub process_proteomes {
     print STDERR "tmpdir = $tmpdir\n";
 
     my ($genomes, $tracks) = get_genome_faa($tmpdir, $params);
+    #print STDERR "process_proteomes genomes: @$genomes\n";
+    #print STDERR "process_proteomes tracks: @$tracks\n";
 
     my ($ref_type, $ref_name) = get_ref_type($params);
 
@@ -404,6 +406,7 @@ sub get_genome_faa {
         push @genomes, get_patric_genome_faa_seed($tmpdir, $_);
         push @tracks, get_patric_genome_name($_)." ($_)";
     }
+
     for (@{$params->{user_genomes}}) {
         my $fname = get_ws_file($tmpdir, $_);
         my $basename = basename($fname);
@@ -415,16 +418,28 @@ sub get_genome_faa {
 			die "The user fasta appears to be of type $seq_type. It must be a file of protein sequences.\n";
 		}
     }
+
     for (@{$params->{user_feature_groups}}) {
         push @genomes, get_feature_group_faa($tmpdir, $_);
         my $group = $_; $group =~ s/.*\///;
         push @tracks, "$group (feature group)";
     }
+
+    print STDERR "get_genome_faa all genomes in original order: @genomes\n";
+    print STDERR "get_genome_faa all tracks in original order: @tracks\n";
+
     my $ref_i = $params->{reference_genome_index} - 1;
     if ($ref_i) {
-        my $tmp = $genomes[0]; $genomes[0] = $genomes[$ref_i]; $genomes[$ref_i] = $tmp;
-        my $tmp = $tracks[0]; $tracks[0] = $tracks[$ref_i]; $tracks[$ref_i] = $tmp;
+    	# place the ref genome in front of the genome array. The remaining genomes keep the same order as before
+        my $genomes_user_ref = $genomes[$ref_i];
+        splice @genomes, $ref_i, 1;
+        unshift @genomes, $genomes_user_ref;
+        my $tracks_user_ref = $tracks[$ref_i];
+        splice @tracks, $ref_i, 1;
+        unshift @tracks, $tracks_user_ref;
     }
+    print STDERR "get_genome_faa reordered genomes if any: @genomes\n";
+    print STDERR "get_genome_faa reordered tracks if any: @tracks\n";
     # print STDERR '\@genomes = '. Dumper(\@genomes);
     # print STDERR '\@tracks = '. Dumper(\@tracks);
 
