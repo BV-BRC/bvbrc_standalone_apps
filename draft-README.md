@@ -22,6 +22,7 @@ This module provides the following application specfication(s):
 
 ## See also
 
+* [Proteome Comparison Service Quick Reference](https://www.bv-brc.org/docs/quick_references/services/proteome_comparison_service.html)
 * [Proteome Comparison Service](https://www.bv-brc.org/docs/https://bv-brc.org/app/SeqComparison.html)
 * [Proteome Comparison Tutorial](https://www.bv-brc.org/docs//tutorial/proteome_comparison/proteome_comparison.html)
 
