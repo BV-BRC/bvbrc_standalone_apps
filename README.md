@@ -12,3 +12,4 @@ the components of the BV-BRC. More documentation is available [here](https://git
 
 This module provides the following application specfication(s):
 * [Date](app_specs/Date.md)
+* [Sleep](app_specs/Sleep.md)
