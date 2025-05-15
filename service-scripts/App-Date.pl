@@ -3,14 +3,8 @@
 #
 
 use Bio::KBase::AppService::AppScript;
-use Bio::P3::Workspace::WorkspaceClient;
-use Bio::P3::Workspace::WorkspaceClientExt;
 use strict;
 use Data::Dumper;
-use gjoseqlib;
-use File::Basename;
-use LWP::UserAgent;
-use JSON::XS;
 
 my $script = Bio::KBase::AppService::AppScript->new(\&date, \&preflight);
 
